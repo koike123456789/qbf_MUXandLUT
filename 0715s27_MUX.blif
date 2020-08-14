@@ -1,0 +1,69 @@
+# Benchmark "s27" written by ABC on Fri Oct 25 14:20:47 2019
+.model s27
+.inputs lut1 lut2 lut3 ctl0 ctl1 G0 G1 G2 G3 G5 G6 G7
+#.outputs G17
+.outputs s27_out
+.subckt MUX ctl0=ctl0 ctl1=ctl1 FF0=n12 FF1=n17 FF2=n22 out0=lut_in0_y out1=lut_in1_y
+.subckt LUT in0=lut_in0_y in1=lut_in1_y out0=one out1=lut1 out2=lut2 out3=lut3 out=y
+.subckt MUX ctl0=ctl0 ctl1=ctl1 FF0=G5 FF1=G6 FF2=G7 out0=lut_in0_x out1=lut_in1_x
+.subckt LUT in0=lut_in0_x in1=lut_in1_x out0=one out1=lut1 out2=lut2 out3=lut3 out=x
+
+.names one
+1
+.names x y s27_out
+10 0
+
+#.latch        n12         G5  2
+#.latch        n17         G6  2
+#.latch        n22         G7  2
+
+.names G0 new_G14_
+0 1
+.names n17 G17
+0 1
+.names new_G14_ G6 new_G8_
+11 1
+.names new_G12_ new_G8_ new_G15_
+00 0
+.names G3 new_G8_ new_G16_
+00 0
+.names new_G16_ new_G15_ new_G9_
+11 0
+.names new_G14_ n17 n12
+00 1
+.names G5 new_G9_ n17
+00 1
+.names G1 G7 new_G12_
+00 1
+.names G2 new_G12_ n22
+00 1
+.end
+
+.model LUT
+.inputs in0 in1 out0 out1 out2 out3
+.outputs out
+.names in0 in1 out0 out1 out2 out3 out
+001--- 1
+01-1-- 1
+10--1- 1
+11---1 1
+.end
+
+#00 -> FF0 FF1 
+#01 -> FF0 FF2 
+#10 -> FF1 FF2 
+#11 -> FF1 FF2
+.model MUX
+.inputs ctl0 ctl1 FF0 FF1 FF2 
+.outputs out0 out1
+.names ctl0 ctl1 FF0 FF1 FF2 out0
+001-- 1
+011-- 1
+10-1- 1
+11-1- 1
+.names ctl0 ctl1 FF0 FF1 FF2 out1
+00-1- 1
+01--1 1
+10--1 1
+11--1 1
+.end

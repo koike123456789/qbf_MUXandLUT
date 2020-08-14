@@ -1,0 +1,75 @@
+.model blif/s27.blif
+.inputs lut1 lut2 lut3 ctl0 ctl1 ctl2 G0 G1 G2 G3 G5 G6 G7
+.outputs out
+.subckt MUX ctl0=ctl0 ctl1=ctl1 ctl2=ctl2 FF0=G10 FF1=G11 FF2=G13 out0=lut_iny_0 out1=lut_iny_1 
+.subckt LUT in_FF0=lut_iny_0 in_FF1=lut_iny_1 lut0=one lut1=lut1 lut2=lut2 lut3=lut3 out=y
+.subckt MUX ctl0=ctl0 ctl1=ctl1 ctl2=ctl2 FF0=G5 FF1=G6 FF2=G7 out0=lut_inx_0 out1=lut_inx_1 
+.subckt LUT in_FF0=lut_inx_0 in_FF1=lut_inx_1 lut0=one lut1=lut1 lut2=lut2 lut3=lut3 out=x
+.names one
+1
+.names lut1 lut2 lut3 check_lut
+111 1
+.names x y check_lut out
+10- 0
+--1 0
+
+#.latch    G10 G5   3
+#.latch    G11 G6   3
+#.latch    G13 G7   3
+.names G11 G17
+0 1
+.names G14 G11 G10
+00 1
+.names G5 G9 G11
+00 1
+.names G2 G12 G13
+00 1
+.names G0 G14
+0 1
+.names G14 G6 G8
+11 1
+.names G1 G7 G12
+00 1
+.names G12 G8 G15
+1- 1
+-1 1
+.names G3 G8 G16
+1- 1
+-1 1
+.names G16 G15 G9
+0- 1
+-0 1
+.end
+
+.model LUT
+.inputs in_FF0 in_FF1 lut0 lut1 lut2 lut3
+.outputs out
+.names in_FF0 in_FF1 lut0 lut1 lut2 lut3 out
+001--- 1
+01-1-- 1
+10--1- 1
+11---1 1
+.end
+
+.model MUX
+.inputs ctl0 ctl1 ctl2 FF0 FF1 FF2
+.outputs out0 out1
+.names ctl0 ctl1 ctl2 FF0 FF1 FF2 out0
+0001-- 1
+0011-- 1
+010-1- 1
+0111-- 1
+100--1 1
+1011-- 1
+110-1- 1
+1111-- 1
+.names ctl0 ctl1 ctl2 FF0 FF1 FF2 out1
+0001-- 1
+0011-- 1
+010-1- 1
+011-1- 1
+100--1 1
+101--1 1
+110--1 1
+111-1- 1
+.end
